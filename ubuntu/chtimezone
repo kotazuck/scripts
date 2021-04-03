@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ ${#} -eq 0 ]; then
+  echo "
+  usage: chtimezone <timezone>
+
+    timezone: eg) Asia/Tokyo, Etc/GMT 
+  "
+  echo "タイムゾーンを指定してください"
+  exit 1
+fi
+TARGET_TIMEZONE="${1}"
+
+if [ ! -e "/usr/share/zoneinfo/${TARGET_TIMEZONE}" ]; then
+  echo "タイムゾーン: ${TARGET_TIMEZONE} が見つかりません"
+  exit 2
+fi
+
+CURRENT_TIMEZONE=$(timedatectl | grep -oE 'Time zone: \s*(\S+)')
+
+echo "現在のタイムゾーン: ${CURRENT_TIMEZONE}"
+
+if [ "${CURRENT_TIMEZONE}" = "${TARGET_TIMEZONE}" ]; then
+  echo "タイムゾーンが既に ${TARGET_TIMEZONE} となっているので終了します"
+  exit 0
+fi
+
+echo "タイムゾーンを ${TARGET_TIMEZONE} へ変更します"
+sudo timedatectl set-timezone ${TARGET_TIMEZONE}
+
+timedatectl

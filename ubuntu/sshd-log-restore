@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ ${#} -ne 1 -a ! -e "${1}" ]; then
+  echo "not found"
+  exit 1
+fi
+
+LOG_FILE="/var/log/auth.log"
+
+TMP_FILE=${1}
+
+cat ${TMP_FILE} | sudo tee ${LOG_FILE}
+
+rm -f ${TMP_FILE}

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+LOG_FILE="/var/log/auth.log"
+
+TMP_FILE=$(mktemp)
+
+cat ${LOG_FILE} > ${TMP_FILE}
+
+echo ${TMP_FILE}

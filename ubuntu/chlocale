@@ -1,0 +1,38 @@
+#!/bin/bash
+
+##
+# localeを変更する
+#
+
+if [ ${#} -ne 1 ]; then
+  echo "
+  usage: chlocale <locale>
+
+    locale: eg) ja_JP.UTF-8, en_US.UTF-8
+  "
+  exit 1
+fi
+
+TARGET_LOCALE="${1}"
+
+# 該当localeを検索し、行数を取得する
+LINE_CNT=$(cat /etc/locale.gen | grep -c -E "${TARGET_LOCALE}")
+# 行数が1以外はエラーとする
+if [ $LINE_CNT -ne 1 ]; then
+  echo "${TARGET_LOCALE} が見つかりません"
+  exit 1
+fi
+
+# すでにlocaleが設定されている場合は終了
+if [ "${LANG}" = "${TARGET_LOCALE}" ]; then
+  echo "すでに ${TARGET_LOCALE} となっているので、終了します"
+  exit 0
+fi
+
+sudo sed -i -r "s/^([^#].*)/# \1/" /etc/locale.gen
+sudo sed -i -r "s/^#\s*(${TARGET_LOCALE}.*)/\1/" /etc/locale.gen
+sudo locale-gen
+
+sudo update-locale LANG=${TARGET_LOCALE}
+
+locale
