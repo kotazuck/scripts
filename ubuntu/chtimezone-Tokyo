@@ -6,6 +6,6 @@ TARGET_TIMEZONE="Asia/Tokyo"
 if [ -e ${SCRIPT_DIR}/chtimezone ]; then
   ${SCRIPT_DIR}/chtimezone ${TARGET_TIMEZONE}
 else
-  curl --silent https://raw.githubusercontent.com/kotazuck/scripts/master/ubuntu/chtimezone | sh -- ${TARGET_TIMEZONE}
+  curl --silent https://raw.githubusercontent.com/kotazuck/scripts/main/ubuntu/chtimezone | sh -- ${TARGET_TIMEZONE}
 fi
 
