@@ -8,7 +8,7 @@ SCRIPT_DIR=$(cd $(dirname $0) && pwd)
 
 TARGET_LOCALE="ja_JP.UTF-8"
 
-if [ -e ${SCRIPT_DIR}/chlocale ];
+if [ -e ${SCRIPT_DIR}/chlocale ]; then
   ${SCRIPT_DIR}/chlocale ${TARGET_LOCALE}
 else
   curl --silent https://raw.githubusercontent.com/kotazuck/scripts/master/ubuntu/chlocale | sh -- ${TARGET_LOCALE}
